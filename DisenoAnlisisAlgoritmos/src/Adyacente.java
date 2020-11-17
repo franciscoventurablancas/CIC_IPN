@@ -28,6 +28,6 @@ public class Adyacente {
      * @return  String  que representa a un adyacente
      */
     public String toString() {
-        return destino + "(" + peso + ") ";
+        return "" + destino + ""; //+ "(" + peso + ") ";
     }
 }

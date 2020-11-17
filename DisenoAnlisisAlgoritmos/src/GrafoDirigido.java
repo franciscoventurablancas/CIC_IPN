@@ -43,9 +43,17 @@ public class GrafoDirigido extends Grafo {
     public boolean existeArista(int i, int j) {
         ListaConPI<Adyacente> l = elArray[i];
         boolean esta = false;
-        for (l.inicio(); !l.esFin() && !esta; l.siguiente()) {
-            if (l.recuperar().destino == j) { esta = true; }
+        
+        try
+        {
+        	for (l.inicio(); !l.esFin() && !esta; l.siguiente()) {
+        		if (l.recuperar().destino == j) { esta = true; }
         }
+        }catch(Exception ex) 
+        {
+        	System.out.println(ex);
+        }
+        
         return esta;
     }
 
@@ -69,10 +77,17 @@ public class GrafoDirigido extends Grafo {
       * @param j    Vertice destino
       */
     public void insertarArista(int i, int j) {
+    	
+    	try 
+    	{
         if (!existeArista(i, j)) {
             elArray[i].insertar(new Adyacente(j, 1));
             numA++;
         }
+    	}catch(Exception ex)
+    	{
+    		System.out.println(ex);
+    	}
     }
 
     /** Si no esta, inserta la arista (i, j) de peso p en un grafo Ponderado

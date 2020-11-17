@@ -74,10 +74,10 @@ public abstract class Grafo {
 	public String toString() {
         String res = "";
         for (int  i = 0; i < numVertices(); i++) {
-            res += "Vertice: " + i;
+            res += "" + i;
             ListaConPI<Adyacente> l = adyacentesDe(i);
-            if (l.esVacia()) { res += " sin Adyacentes "; }
-            else { res += " con Adyacentes "; }
+            if (l.esVacia()) { res += ","; }
+            else { res += ","; }
             for (l.inicio(); !l.esFin(); l.siguiente()) {
                 res +=  l.recuperar() + " ";
             }
