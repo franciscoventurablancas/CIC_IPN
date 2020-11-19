@@ -1,28 +1,47 @@
+import java.util.Random;
 
 public class MainGrafo {
 
 	public static void main(String[] args) {
 		
 		//GenErdosRenyi
-		 Grafo g = genErdosRenyi(30,0,true,true);
-		 System.out.println(g);		 
-		 Grafo g2 = genErdosRenyi(100,0,true,true);
-		 System.out.println(g2);
-		 Grafo g3 = genErdosRenyi(500,0,true,true);
-		 System.out.println(g3);
+		 Grafo GenErdosRenyi30 = genErdosRenyi(30,0,true,true);
+		 System.out.println(GenErdosRenyi30);		 
+		 Grafo GenErdosRenyi100 = genErdosRenyi(100,0,true,true);
+		 System.out.println(GenErdosRenyi100);
+		 Grafo GenErdosRenyi500 = genErdosRenyi(500,0,true,true);
+		 System.out.println(GenErdosRenyi500);
 		 
-		 //genGilbert
+    	 //genGilbert
+		Grafo genGilbert30 = genGilbert(30,0.25,true,true);
+		System.out.println(genGilbert30);
 		
-		/*int probabilidad =  (int) Math.random();
-				 
-		Grafo g = genGilbert(30,probabilidad,true,true);
-		System.out.println(g);
+		Grafo genGilbert100 = genGilbert(100,0.25,true,true);
+		System.out.println(genGilbert100);
 		
-		Grafo g1 = genGilbert(100,probabilidad,true,true);
-		System.out.println(g1);
+		Grafo genGilbert500 = genGilbert(500,0.25,true,true);
+		System.out.println(genGilbert500);
 		
-		Grafo g2 = genGilbert(500,probabilidad,true,true);
-		System.out.println(g2);*/
+		
+		// genGeografico
+		GrafoDirigido genGeografico30 = genGeografico(30,0.3,true,true);	
+		System.out.println(genGeografico30);
+		GrafoDirigido genGeografico100 = genGeografico(100,.3,true,true);
+		System.out.println(genGeografico100);
+		GrafoDirigido genGeografico500 = genGeografico(500,.3,true,true);
+		System.out.println(genGeografico500);
+			
+		//genBarabasAlbert
+		
+		Grafo genBarabasAlbert30 = genBarabasAlbert(30,7,true,true);
+		System.out.println(genBarabasAlbert30);
+		
+		Grafo genBarabasAlbert100 = genBarabasAlbert(100,7,true,true);
+		System.out.println(genBarabasAlbert100);
+		
+		Grafo genBarabasAlbert500 = genBarabasAlbert(500,7,true,true);
+		System.out.println(genBarabasAlbert500);
+		
 		
 		//TesterGrafoEtiquetado();		
 		//TesterGrafoNoDirigido();
@@ -30,39 +49,46 @@ public class MainGrafo {
 		//TesterGrafoNoDirigido();
 		
 		
-		
-		
 	}
 	
+	  	
 	
+	/*Modelo Erdös-Rényi.
+	  Crea n vértices y elige uniformemente al azar m distintos
+	   pares de distintos vértices*/
 	
-
-
 	public static Grafo genErdosRenyi(int n, int m, boolean dirigido, boolean auto)
 	{
 		System.out.println("Francisco Ventura estudiante MCC ");
 		System.out.println("modelo de Erdos Renyi");
 		
 		
-		// define the range 
-        int max = n; 
-        int min = m; 
-        int range = max - min; 
+        Random randomNum1 = new Random();
+        Random randomNum2 = new Random();
 		
 		 Grafo g = new GrafoDirigido(n);
 		 
-		  int m2=0;
-		  int m1=0;
-		  try
-		  {
-		  for(int i=0; i<=n; i++)
-		  {
-			  
-			  m1 = (int)(Math.random() * range) + min;
-			  m2 = (int)(Math.random() * range) + min;
-			  
-			  g.insertarArista(m1, m2);
-			  
+		 /*mientras el número de aristas del grafo sea menor que el número con el
+		    que se llamó este modelo se generan números al azar entre 0 y el número de
+		    nodos -1. Se verifica si ya existe conexión entre los nodos que
+		    corresponden a esos índices y si no, se conectan. Se verifica que
+		    los números pseudoaleatorios no sean el mismo*/
+		 
+		try { 
+		 while((g.numAristas()<g.numVertices()))
+		 {
+			 
+			  n = randomNum1.nextInt(g.numVertices());
+		      m = randomNum2.nextInt(g.numVertices());
+		      
+		      if (n != m) {
+		          if (!g.existeArista(n, m)) {
+		        	  g.insertarArista(n, m);
+		          }
+		            
+						 
+		 }
+		 
 		  }
 		  }catch(Exception ex)
 	    	{
@@ -74,46 +100,40 @@ public class MainGrafo {
 	        
 		
 	}
+	
+	
+	/*Modelo de Gilbert.
+	  Crear m aristas crear n vértices y poner una arista entre cada par
+	  independiente y uniformemente con probabilidad p*/
 	
 	public static Grafo genGilbert(int n, double p, boolean dirigido, boolean auto)
 	{
 		System.out.println("Francisco Ventura estudiante MCC ");
 		System.out.println("modelo de Gilbert");
 		
+		 Grafo g = new GrafoDirigido(n);
+		Random randomNum = new Random();
 		
-		// define the range 
-        int max = n; 
-        int min = 0; 
-        int range = max - min; 
-        double range1 = 0 ; 
-        
-        		
-		 Grafo g = new GrafoDirigido(n); 
-		  int m2=0;
-		  int m1=0;
-		  try
+		 try
 		  {
-		  for(int i=0; i<=n; i++)
-		  {	  
-			  
-			  range1 = (int)Math.round(Math.random());
-			
-			  if (i%2==0)
-			  {
-				  if (range1 >0) {
-					 
-				      m1 = (int)(Math.random() * range) + min;
-					  m2 = (int)(Math.random() * range) + min; 
-					  
-					  
-				  g.insertarArista(m1, m2);
-				  }
-				  
-			  }
-			  
-			  g.insertarArista(m1, m2);
-			  
-		  }
+		
+		
+		/*Para cada vértice i se recorren todos los vértices j con i<>j. En cada
+	    par se calcula un número pseudoaleatorio entre 0.0 y 1.0 y se compara
+	    con la probabilidad que se le pasó como argumento al modelo. Si es menor
+	    que la probabilidad y no existe ya una conexión, se realiza la conexión.*/
+	    for(int i = 0; i < g.numVertices(); i++) {
+	      for(int j = 0; j <g.numVertices(); j++) {
+	        if ((i != j) && (randomNum.nextDouble() <= p)) {
+	          if (!g.existeArista(i, j)) {
+	        	  g.insertarArista(i, j);
+	          }
+	        }
+	      }
+	    }
+	  
+		
+		 
 		  }catch(Exception ex)
 	    	{
 	    		System.out.println(ex);
@@ -125,38 +145,36 @@ public class MainGrafo {
 	}
 	
 	
-	public static Grafo genGeografico(int n, double r,boolean dirigido, boolean auto)
+	  /*Modelo geográfico simple.
+	Colocar n vértices en un rectángulo unitario con coordenadas uniformes
+	(o normales) y colocar una arista entre cada par que queda a una
+	distancia r o menor*/
+	
+	public static GrafoDirigido genGeografico(int n, double r,boolean dirigido, boolean auto)
 	{
 		
 		System.out.println("Francisco Ventura estudiante MCC ");
 		System.out.println("modelo de Geografico");
 		
+		GrafoDirigido g = new GrafoDirigido(n);
 		
-		// define the range 
-        int max = n; 
-        int min = 0; 
-        int range = max - min; 
-        double range1 = 0 ; 
-        
-        		
-		 Grafo g = new GrafoDirigido(n); 
-		  int m2=0;
-		  int m1=0;
-		  try
+			 try
 		  {
-		  for(int i=0; i<=n; i++)
-		  {	  
-			  
-			  range1 = (int)Math.round(Math.random());
-			
-					 
-				      m1 = (int)(Math.random() * range) + min;
-					  m2 = (int)(Math.random() * range) + min; 
-					  
-								 			  
-			  g.insertarArista(m1, m2);
-			  
-		  }
+		
+		/*Para cada vértice i se compara con el resto de los vértices con los que
+	    no se ha comparado y si están a una distancia r o menor se realiza la
+	    conexión.*/
+	    for(int i = 0; i < g.getNumNodes(); i++) {
+	      for(int j = i + 1; j <g.getNumNodes(); j++) {
+	        double distancia = g.distanciaVertices(g.getNode(i), g.getNode(j));
+	        if (distancia <= r) {
+	            g.conectarVertices(i, j);
+	            
+	           
+	        }
+	      }
+	    }
+	    
 		  }catch(Exception ex)
 	    	{
 	    		System.out.println(ex);
@@ -166,9 +184,43 @@ public class MainGrafo {
 		  return g;
 	}
 	
-	public static Grafo genBarabasAlbert(int n, double d, boolean dirigido, boolean auto)
+	public static Grafo genBarabasAlbert(int n, int d, boolean dirigido, boolean auto)
 	{
-		return null;
+		GrafoDirigido g = new GrafoDirigido(n);
+		
+		Random volado = new Random();
+		  /*Para los primeros d vértices, se conecta el vértice i con el vértice j
+		  con i distinto de j y recorriendo todos los vértices.*/
+		    for(int i = 0; i < d; i++){
+		      for(int j = 0; j < i; j++) {
+		        if (!g.existeArista(i, j)) {
+		          g.conectarVertices(i, j);
+		        }
+		      }
+		    }
+		  /*Del vértice d en adelante hasta el vértice n, el vértice i de trata de
+		  emparejar con cada vértice j desde el primero hasta i-1. La manera de hacer
+		  el emparejamiento es con probabilidad. La probabilidad de que el vértice i
+		  se conecte con j es proporcional al número de aristas del vértice j dividido
+		  por el número total de aristas en el grafo hasta ese momento. Un número
+		  pseudoaleatorio se compara con esa probabilidad, de ser menor, se realiza
+		  la conexión. Antes de realizar la conexión se verifica que no exista ya y que
+		  el vértice i no tenga ya d o más conexiones.*/
+		  // i no se incrementa hasta que ese vértice tiene d conexiones
+		    for(int i =  d; i < g.getNumNodes();) {
+		      for(int j = 0; j < i; j++) {
+		        double probabilidad =
+		        (double)g.gradoVertice(j)/(double)g.getNumEdges();
+		        if (volado.nextDouble() <= probabilidad) {
+		          if (!g.existeArista(i, j) && (g.gradoVertice(i) < d)) {
+		            g.conectarVertices(i, j);
+		          }
+		        }
+		      }
+		      if (g.gradoVertice(i) >= d) i++;
+		    }
+		    
+		    return g;
 	}
 	
 	private static void TesterGrafoEtiquetado()

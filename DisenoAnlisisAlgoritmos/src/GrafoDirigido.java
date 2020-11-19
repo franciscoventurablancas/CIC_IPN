@@ -1,3 +1,6 @@
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Random;
 
 /*
  * Grafo Dirigido
@@ -12,14 +15,37 @@ public class GrafoDirigido extends Grafo {
 
 	protected int numV, numA;
     protected ListaConPI<Adyacente>[] elArray;
+    /*arreglo de objetos 'Vertice'. De esta forma nos podemos referir a cada
+    vértice por su posición en el arreglo*/
+    private Vertice[] nodes;
+    /*El grafo en sí es un mapa Hash. Toma como llave el vértice, que es mapeado
+    a un conjunto Hash de vértices con los cuales hay conexión.*/
+    private HashMap<Vertice, HashSet<Vertice>> graph;
+    /*Para los algoritmos de Dijkstra, Kruskal y Prim, se necesitan
+    aristas con pesos.*/
+    private HashMap<Vertice, HashSet<Arista>> incidencia; //mapa para Dijkstra
+    private int numeroVertices; //número de vértices del grafo
+    private int numeroAristas;  //número de aristas únicas del grafo
+    //private static Formatter output; //objeto para escribir a disco
+    private Boolean weighted; //bandera a usar si grafo es pesado
+    
+    public int getNumNodes() {return numeroVertices;}
+
+    public int getNumEdges() {return numeroAristas;}
+
+    public Vertice getNode(int i) {return this.nodes[i];}
+
+    public Boolean getWeightedFlag() {return this.weighted;}
+
 
     /** Construye un grafo Dirigido vacio con numVertices.
      *  @param numVertices  Numero de vertices del grafo vacio
      */
     @SuppressWarnings("unchecked")
-    public GrafoDirigido(int numVertices) {
-        numV = numVertices; numA = 0;
-        elArray = new ListaConPI[numVertices];
+    public GrafoDirigido(int num_Vertices) {
+        this.numeroVertices = 0;
+		numV = num_Vertices; numA = 0;
+        elArray = new ListaConPI[num_Vertices];
         for (int i = 0; i < numV; i++) {
             elArray[i] = new LEGListaConPI<Adyacente>();
         }
@@ -127,4 +153,66 @@ public class GrafoDirigido extends Grafo {
         }
         return true;
     }
+    
+    /*Constructor usado para el modelo geofráfico simple.
+    Se le tienen que pasar el número de vértices y la cadena "geo-uniforme"*/
+    public void modeloGeoSimple(int numVertices, String modelo) {
+            	
+    	this.graph = new HashMap<Vertice, HashSet<Vertice>>();
+        this.incidencia = new HashMap<Vertice, HashSet<Arista>>();
+        this.numeroVertices = numVertices;
+        this.nodes = new Vertice[numVertices];
+        Random coorX = new Random();
+        Random coorY = new Random();
+        if (modelo == "geo-uniforme") {
+          for (int i = 0; i < numVertices; i++) {
+            Vertice n = new Vertice(i, coorX.nextDouble(), coorY.nextDouble());
+            this.nodes[i] = n;
+            this.graph.put(n, new HashSet<Vertice>());
+            this.incidencia.put(n, new HashSet<Arista>());
+          }
+        }
+        this.weighted = false;
+      }
+    
+    //Distancia L2 entre vértices para el modelo geofráfico
+       
+    public double distanciaVertices(Vertice n1, Vertice n2) {
+        return Math.sqrt(Math.pow((n1.getX() - n2.getX()), 2)
+        + Math.pow((n1.getY() - n2.getY()), 2));
+      }
+    
+    public void conectarVertices(int i, int j) {
+        /*Se recuperan los vértices de los índices i y j*/
+         Vertice n1 = this.getNode(i);
+         Vertice n2 = this.getNode(j);
+         /*Se recuperan las aristas de cada vértice*/
+         HashSet<Vertice> aristas1 = this.getEdges(i);
+         HashSet<Vertice> aristas2 = this.getEdges(j);
+
+         /*Se agregan los vértices al conjunto del otro*/
+         aristas1.add(n2);
+         aristas2.add(n1);  //en Grafos dirigidos hay que quitar esta línea
+         this.numeroAristas +=1; //Para que sean aristas únicas (en lugar de 2)
+      }
+    
+    public HashSet<Vertice> getEdges(int i) {
+        Vertice n = this.getNode(i);
+        return this.graph.get(n);
+      }
+    
+  //Regresa el grado (número de aristas) de un vértice i
+    public int gradoVertice(int i) {
+      Vertice n1 = this.getNode(i);
+      return this.graph.get(n1).size();
+    }
+    public HashSet<Arista> getWeightedEdges(int i) {
+        Vertice n = this.getNode(i);
+        return this.incidencia.get(n);
+      }
+
+	
 }
+
+
+
