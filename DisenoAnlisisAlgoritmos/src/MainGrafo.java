@@ -1,54 +1,78 @@
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.Formatter;
+import java.util.FormatterClosedException;
+import java.util.Properties;
 import java.util.Random;
 
 public class MainGrafo {
 
-	public static void main(String[] args) {
+	public static void main(String[] args)throws Exception {
 		
+		//Utilizado para leer la ruta donde se genera el nuevo archivo
+		
+		FileReader reader=new FileReader("src/config.properties"); 	      
+	    Properties p=new Properties();  
+	    p.load(reader);  
+	      
 		//GenErdosRenyi
-		 Grafo GenErdosRenyi30 = genErdosRenyi(30,0,true,true);
-		 System.out.println(GenErdosRenyi30);		 
-		 Grafo GenErdosRenyi100 = genErdosRenyi(100,0,true,true);
-		 System.out.println(GenErdosRenyi100);
-		 Grafo GenErdosRenyi500 = genErdosRenyi(500,0,true,true);
-		 System.out.println(GenErdosRenyi500);
+		Grafo GenErdosRenyi30 = genErdosRenyi(30,0,true,true);
+		 GenErdosRenyi30.EscribeArchivo(p.getProperty("PathfileGenErdosRenyi30"),GenErdosRenyi30.toString());
+		 System.out.println(GenErdosRenyi30.toString());
 		 
+		 Grafo GenErdosRenyi100 = genErdosRenyi(100,0,true,true);
+		 GenErdosRenyi100.EscribeArchivo(p.getProperty("PathfileGenErdosRenyi100"), GenErdosRenyi100.toString());
+		 System.out.println(GenErdosRenyi100.toString());
+		 		 
+		 Grafo GenErdosRenyi500 = genErdosRenyi(500,0,true,true);
+		 GenErdosRenyi500.EscribeArchivo(p.getProperty("PathfileGenErdosRenyi500"), GenErdosRenyi500.toString());
+		 System.out.println(GenErdosRenyi500.toString());
+		 	 
     	 //genGilbert
+		 		 
 		Grafo genGilbert30 = genGilbert(30,0.25,true,true);
+		genGilbert30.EscribeArchivo(p.getProperty("PathfileGenGilbert30"), genGilbert30.toString());
 		System.out.println(genGilbert30);
 		
 		Grafo genGilbert100 = genGilbert(100,0.25,true,true);
+		genGilbert100.EscribeArchivo(p.getProperty("PathfileGenGilbert100"), genGilbert100.toString());
 		System.out.println(genGilbert100);
 		
 		Grafo genGilbert500 = genGilbert(500,0.25,true,true);
+		genGilbert500.EscribeArchivo(p.getProperty("PathfilegenGilbert500"), genGilbert500.toString());
 		System.out.println(genGilbert500);
 		
 		
-		// genGeografico
-		GrafoDirigido genGeografico30 = genGeografico(30,0.3,true,true);	
-		System.out.println(genGeografico30);
-		GrafoDirigido genGeografico100 = genGeografico(100,.3,true,true);
-		System.out.println(genGeografico100);
-		GrafoDirigido genGeografico500 = genGeografico(500,.3,true,true);
-		System.out.println(genGeografico500);
+		//genGeografico
+		
+		GrafoDEtiquetado genGeografico30 = genGeografico(30,0.3,true,true);			
+		genGeografico30.EscribeArchivo(p.getProperty("PathfilegenGeografico30"), genGeografico30.toString());
+		
+		
+		GrafoDEtiquetado genGeografico100 = genGeografico(100,.3,true,true);
+		genGeografico100.EscribeArchivo(p.getProperty("PathfilegenGeografico100"), genGeografico100.toString());
+		
+		GrafoDEtiquetado genGeografico500 = genGeografico(500,0.3,true,true);
+		
+		genGeografico500.EscribeArchivo(p.getProperty("PathfilegenGeografico500"), genGeografico500.toString());
+		
+		
 			
 		//genBarabasAlbert
 		
-		Grafo genBarabasAlbert30 = genBarabasAlbert(30,7,true,true);
-		System.out.println(genBarabasAlbert30);
+	    GrafoNoDirigido genBarabasAlbert30 = genBarabasAlbert(30,7,true,true);
+	    genBarabasAlbert30.EscribeArchivo(p.getProperty("PathfilegenBarabasAlbert30"), genBarabasAlbert30.toString());
+		System.out.println(genBarabasAlbert30.toString());
 		
-		Grafo genBarabasAlbert100 = genBarabasAlbert(100,7,true,true);
-		System.out.println(genBarabasAlbert100);
+		GrafoNoDirigido genBarabasAlbert100 = genBarabasAlbert(100,7,true,true);
+		genBarabasAlbert100.EscribeArchivo(p.getProperty("PathfilegenBarabasAlbert100"), genBarabasAlbert100.toString());
+		System.out.println(genBarabasAlbert100.toString());
 		
-		Grafo genBarabasAlbert500 = genBarabasAlbert(500,7,true,true);
-		System.out.println(genBarabasAlbert500);
+		GrafoNoDirigido genBarabasAlbert500 = genBarabasAlbert(500,7,true,true);
+		genBarabasAlbert100.EscribeArchivo(p.getProperty("PathfilegenBarabasAlbert500"), genBarabasAlbert500.toString());
+		System.out.println(genBarabasAlbert500.toString());
 		
-		
-		//TesterGrafoEtiquetado();		
-		//TesterGrafoNoDirigido();
-		
-		//TesterGrafoNoDirigido();
-		
-		
+				
 	}
 	
 	  	
@@ -150,13 +174,14 @@ public class MainGrafo {
 	(o normales) y colocar una arista entre cada par que queda a una
 	distancia r o menor*/
 	
-	public static GrafoDirigido genGeografico(int n, double r,boolean dirigido, boolean auto)
+	public static GrafoDEtiquetado  genGeografico(int n, double r,boolean dirigido, boolean auto)
 	{
 		
 		System.out.println("Francisco Ventura estudiante MCC ");
 		System.out.println("modelo de Geografico");
 		
-		GrafoDirigido g = new GrafoDirigido(n);
+		GrafoDEtiquetado g = new GrafoDEtiquetado(n);		
+		g.modeloGeoSimple(n,"geo-uniforme");
 		
 			 try
 		  {
@@ -164,8 +189,8 @@ public class MainGrafo {
 		/*Para cada vértice i se compara con el resto de los vértices con los que
 	    no se ha comparado y si están a una distancia r o menor se realiza la
 	    conexión.*/
-	    for(int i = 0; i < g.getNumNodes(); i++) {
-	      for(int j = i + 1; j <g.getNumNodes(); j++) {
+	    for(int i = 0; i < g.numVertices(); i++) {
+	      for(int j = i + 1; j <g.numVertices(); j++) {
 	        double distancia = g.distanciaVertices(g.getNode(i), g.getNode(j));
 	        if (distancia <= r) {
 	            g.conectarVertices(i, j);
@@ -184,10 +209,11 @@ public class MainGrafo {
 		  return g;
 	}
 	
-	public static Grafo genBarabasAlbert(int n, int d, boolean dirigido, boolean auto)
+	public static GrafoNoDirigido genBarabasAlbert(int n, int d, boolean dirigido, boolean auto)
 	{
-		GrafoDirigido g = new GrafoDirigido(n);
-		
+		GrafoNoDirigido g = new GrafoNoDirigido(n);		
+		g.modeloBA(d);
+	
 		Random volado = new Random();
 		  /*Para los primeros d vértices, se conecta el vértice i con el vértice j
 		  con i distinto de j y recorriendo todos los vértices.*/
@@ -207,10 +233,10 @@ public class MainGrafo {
 		  la conexión. Antes de realizar la conexión se verifica que no exista ya y que
 		  el vértice i no tenga ya d o más conexiones.*/
 		  // i no se incrementa hasta que ese vértice tiene d conexiones
-		    for(int i =  d; i < g.getNumNodes();) {
+		    for(int i =  d; i < g.numVertices();) {
 		      for(int j = 0; j < i; j++) {
 		        double probabilidad =
-		        (double)g.gradoVertice(j)/(double)g.getNumEdges();
+		        (double)g.gradoVertice(j)/(double)g.numAristas();
 		        if (volado.nextDouble() <= probabilidad) {
 		          if (!g.existeArista(i, j) && (g.gradoVertice(i) < d)) {
 		            g.conectarVertices(i, j);
@@ -271,5 +297,7 @@ public class MainGrafo {
 		
 		
 	}
+	
+	
 
 }

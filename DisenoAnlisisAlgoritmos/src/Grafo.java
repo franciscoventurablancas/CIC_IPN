@@ -12,7 +12,7 @@ import java.util.TreeMap;
 public abstract class Grafo {
 	
 		
-		
+	
 	public Grafo()	{
 		
 	}
@@ -72,19 +72,32 @@ public abstract class Grafo {
      */
 	
 	public String toString() {
-        String res = "";
-        for (int  i = 0; i < numVertices(); i++) {
-            res += "" + i;
+        String res = "graph {\n";
+        for (int  i = 0; i < 30; i++) {
+            res += "\n\t " + i;
             ListaConPI<Adyacente> l = adyacentesDe(i);
-            if (l.esVacia()) { res += ","; }
-            else { res += ","; }
+            if (l.esVacia()) { res += " "; }
+            else { res += "-"; }
             for (l.inicio(); !l.esFin(); l.siguiente()) {
-                res +=  l.recuperar() + " ";
+                res +=  l.recuperar() + "-";
             }
-            res += "\n";
+            res += "\n\t";
         }
-        return res;
+        return res+"}";
     }
+	
+	
+	
+	  
+	public void EscribeArchivo(String nombreArchivo, String string) {
+		// TODO Auto-generated method stub
+		Archivo archivo = new Archivo();
+		
+    	archivo.escribirArchivo(nombreArchivo,string);
+	}
+	  
+	
+	
 		
 
 }

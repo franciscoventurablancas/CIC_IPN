@@ -1,3 +1,6 @@
+import java.io.FileNotFoundException;
+import java.util.Formatter;
+import java.util.FormatterClosedException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
@@ -28,6 +31,8 @@ public class GrafoDirigido extends Grafo {
     private int numeroAristas;  //número de aristas únicas del grafo
     //private static Formatter output; //objeto para escribir a disco
     private Boolean weighted; //bandera a usar si grafo es pesado
+    
+
     
     public int getNumNodes() {return numeroVertices;}
 
@@ -175,26 +180,9 @@ public class GrafoDirigido extends Grafo {
         this.weighted = false;
       }
     
-    //Distancia L2 entre vértices para el modelo geofráfico
-       
-    public double distanciaVertices(Vertice n1, Vertice n2) {
-        return Math.sqrt(Math.pow((n1.getX() - n2.getX()), 2)
-        + Math.pow((n1.getY() - n2.getY()), 2));
-      }
+   
     
-    public void conectarVertices(int i, int j) {
-        /*Se recuperan los vértices de los índices i y j*/
-         Vertice n1 = this.getNode(i);
-         Vertice n2 = this.getNode(j);
-         /*Se recuperan las aristas de cada vértice*/
-         HashSet<Vertice> aristas1 = this.getEdges(i);
-         HashSet<Vertice> aristas2 = this.getEdges(j);
-
-         /*Se agregan los vértices al conjunto del otro*/
-         aristas1.add(n2);
-         aristas2.add(n1);  //en Grafos dirigidos hay que quitar esta línea
-         this.numeroAristas +=1; //Para que sean aristas únicas (en lugar de 2)
-      }
+    
     
     public HashSet<Vertice> getEdges(int i) {
         Vertice n = this.getNode(i);
@@ -211,7 +199,10 @@ public class GrafoDirigido extends Grafo {
         return this.incidencia.get(n);
       }
 
-	
+  
+    
+    
+    
 }
 
 
