@@ -3,6 +3,7 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -11,11 +12,13 @@ import java.util.TreeMap;
 
 public abstract class Grafo {
 	
+	
 		
 	
 	public Grafo()	{
-		
 	}
+	
+	
 	 /** Devuelve el numero de vertices del grafo
      * @return int numero de vertices del grafo
      */	
@@ -72,16 +75,24 @@ public abstract class Grafo {
      */
 	
 	public String toString() {
-        String res = "graph {\n";
-        for (int  i = 0; i < 30; i++) {
-            res += "\n\t " + i;
+        String res = "graph {";
+        
+        for (int  i = 0; i < numVertices(); i++) {
+        	
+        	res +=  "n"+i+";\n ";
+        }
+        
+        
+        for (int  i = 0; i < numVertices(); i++) {
+        	
             ListaConPI<Adyacente> l = adyacentesDe(i);
-            if (l.esVacia()) { res += " "; }
-            else { res += "-"; }
+           if (l.esVacia()) { res += " "; }
+            else { res += " "; }
             for (l.inicio(); !l.esFin(); l.siguiente()) {
-                res +=  l.recuperar() + "-";
+            
+            	res +=  "n"+i + "-" + "n"+l.recuperar()+";\n ";
             }
-            res += "\n\t";
+            res += " ";
         }
         return res+"}";
     }

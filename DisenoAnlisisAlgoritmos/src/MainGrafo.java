@@ -14,33 +14,133 @@ public class MainGrafo {
 		FileReader reader=new FileReader("src/config.properties"); 	      
 	    Properties p=new Properties();  
 	    p.load(reader);  
-	      
-		//GenErdosRenyi
-		Grafo GenErdosRenyi30 = genErdosRenyi(30,0,true,true);
+	     
+	    
+	   
+	    
+		//GenErdosRenyi 30
+		 Grafo GenErdosRenyi30 = genErdosRenyi(30,0,true,true);
 		 GenErdosRenyi30.EscribeArchivo(p.getProperty("PathfileGenErdosRenyi30"),GenErdosRenyi30.toString());
 		 System.out.println(GenErdosRenyi30.toString());
 		 
-		 Grafo GenErdosRenyi100 = genErdosRenyi(100,0,true,true);
+		 GrafoDirigido GenErdosRenyi30BFS =  (GrafoDirigido) GenErdosRenyi30;
+		 GenErdosRenyi30BFS.BFS(GenErdosRenyi30,0);
+		 GenErdosRenyi30BFS.EscribeArchivo(p.getProperty("PathfileGenErdosRenyi30BFS"), GenErdosRenyi30BFS.toString());
+		 
+		 GrafoDirigido GenErdosRenyi30DFS_R = new GrafoDirigido(30);
+		 GenErdosRenyi30DFS_R.DFS_R(GenErdosRenyi30,0);
+		 GenErdosRenyi30DFS_R.EscribeArchivo(p.getProperty("PathfileGenErdosRenyi30DFS_R"), GenErdosRenyi30DFS_R.toString());
+			
+		 GrafoDirigido GenErdosRenyi30DFS_I = new GrafoDirigido(30);
+		 GenErdosRenyi30DFS_I.DFS_I(GenErdosRenyi30,0);
+		 GenErdosRenyi30DFS_I.EscribeArchivo(p.getProperty("PathfileGenErdosRenyi30DFS_I"), GenErdosRenyi30DFS_I.toString());
+		
+		 
+	     //GenErdosRenyi 100
+		  Grafo GenErdosRenyi100 = genErdosRenyi(100,0,true,true);
 		 GenErdosRenyi100.EscribeArchivo(p.getProperty("PathfileGenErdosRenyi100"), GenErdosRenyi100.toString());
 		 System.out.println(GenErdosRenyi100.toString());
+		 
+		
+		 GrafoDirigido GenErdosRenyi100BFS =  (GrafoDirigido) GenErdosRenyi100;
+		 GenErdosRenyi100BFS.BFS(GenErdosRenyi100,0);
+		 GenErdosRenyi100BFS.EscribeArchivo(p.getProperty("PathfileGenErdosRenyi100BFS"), GenErdosRenyi100BFS.toString());
+		 
+		 GrafoDirigido GenErdosRenyi100DFS_R = new GrafoDirigido(100);
+		 GenErdosRenyi100DFS_R.DFS_R(GenErdosRenyi100,0);
+		 GenErdosRenyi100DFS_R.EscribeArchivo(p.getProperty("PathfileGenErdosRenyi100DFS_R"), GenErdosRenyi100DFS_R.toString());
+			
+		 GrafoDirigido GenErdosRenyi100DFS_I = new GrafoDirigido(100);
+		 GenErdosRenyi100DFS_I.DFS_I(GenErdosRenyi100,0);
+		 GenErdosRenyi100DFS_I.EscribeArchivo(p.getProperty("PathfileGenErdosRenyi100DFS_I"), GenErdosRenyi100DFS_I.toString());
+		
 		 		 
+		
+		//GenErdosRenyi 500
 		 Grafo GenErdosRenyi500 = genErdosRenyi(500,0,true,true);
-		 GenErdosRenyi500.EscribeArchivo(p.getProperty("PathfileGenErdosRenyi500"), GenErdosRenyi500.toString());
+		  GenErdosRenyi500.EscribeArchivo(p.getProperty("PathfileGenErdosRenyi500"), GenErdosRenyi500.toString());
 		 System.out.println(GenErdosRenyi500.toString());
 		 	 
-    	 //genGilbert
+    	 
+		 GrafoDirigido GenErdosRenyi500BFS =  (GrafoDirigido) GenErdosRenyi500;
+		 GenErdosRenyi500BFS.BFS(GenErdosRenyi500,0);
+		 GenErdosRenyi500BFS.EscribeArchivo(p.getProperty("PathfileGenErdosRenyi500BFS"), GenErdosRenyi500BFS.toString());
+		 
+		 GrafoDirigido GenErdosRenyi500DFS_R = new GrafoDirigido(500);
+		 GenErdosRenyi500DFS_R.DFS_R(GenErdosRenyi500,0);
+		 GenErdosRenyi500DFS_R.EscribeArchivo(p.getProperty("PathfileGenErdosRenyi500DFS_R"), GenErdosRenyi500DFS_R.toString());
+			
+		 GrafoDirigido GenErdosRenyi500DFS_I = new GrafoDirigido(500);
+		 GenErdosRenyi500DFS_I.DFS_I(GenErdosRenyi500,0);
+		 GenErdosRenyi500DFS_I.EscribeArchivo(p.getProperty("PathfileGenErdosRenyi500DFS_I"), GenErdosRenyi500DFS_I.toString());
+		
+			 
+		 
+		 
+		 
+		 //genGilbert
 		 		 
 		Grafo genGilbert30 = genGilbert(30,0.25,true,true);
 		genGilbert30.EscribeArchivo(p.getProperty("PathfileGenGilbert30"), genGilbert30.toString());
 		System.out.println(genGilbert30);
 		
+		
+		GrafoDirigido genGilbert30BFS = (GrafoDirigido) genGilbert30;
+		genGilbert30BFS.BFS(genGilbert30BFS, 0);
+		genGilbert30BFS.EscribeArchivo(p.getProperty("PathfileGenGilbert30BFS"), genGilbert30BFS.toString());
+		
+		
+		GrafoDirigido genGilbert30DFS_R = (GrafoDirigido) genGilbert30;
+		genGilbert30DFS_R.BFS(genGilbert30DFS_R, 0);
+		genGilbert30DFS_R.EscribeArchivo(p.getProperty("PathfileGenGilbert30DFS_R"), genGilbert30DFS_R.toString());
+		
+		
+		GrafoDirigido genGilbert30DFS_I = (GrafoDirigido) genGilbert30;
+		genGilbert30DFS_I.BFS(genGilbert30DFS_I, 0);
+		genGilbert30DFS_I.EscribeArchivo(p.getProperty("PathfileGenGilbert30DFS_I"), genGilbert30DFS_I.toString());
+		
+		
+		
+		
 		Grafo genGilbert100 = genGilbert(100,0.25,true,true);
 		genGilbert100.EscribeArchivo(p.getProperty("PathfileGenGilbert100"), genGilbert100.toString());
 		System.out.println(genGilbert100);
 		
+		
+		GrafoDirigido genGilbert100BFS = (GrafoDirigido) genGilbert100;
+		genGilbert100BFS.BFS(genGilbert100BFS, 0);
+		genGilbert100BFS.EscribeArchivo(p.getProperty("PathfileGenGilbert100BFS"), genGilbert100BFS.toString());
+		
+		
+		GrafoDirigido genGilbert100DFS_R = (GrafoDirigido) genGilbert100;
+		genGilbert100DFS_R.BFS(genGilbert100DFS_R, 0);
+		genGilbert100DFS_R.EscribeArchivo(p.getProperty("PathfileGenGilbert100DFS_R"), genGilbert100DFS_R.toString());
+		
+		
+		GrafoDirigido genGilbert100DFS_I = (GrafoDirigido) genGilbert100;
+		genGilbert100DFS_I.BFS(genGilbert100DFS_I, 0);
+		genGilbert100DFS_I.EscribeArchivo(p.getProperty("PathfileGenGilbert100DFS_I"), genGilbert100DFS_I.toString());
+		
+		
 		Grafo genGilbert500 = genGilbert(500,0.25,true,true);
 		genGilbert500.EscribeArchivo(p.getProperty("PathfilegenGilbert500"), genGilbert500.toString());
 		System.out.println(genGilbert500);
+		
+		GrafoDirigido genGilbert500BFS = (GrafoDirigido) genGilbert500;
+		genGilbert500BFS.BFS(genGilbert500BFS, 0);
+		genGilbert500BFS.EscribeArchivo(p.getProperty("PathfileGenGilbert500BFS"), genGilbert500BFS.toString());
+		
+		
+		GrafoDirigido genGilbert500DFS_R = (GrafoDirigido) genGilbert500;
+		genGilbert500DFS_R.BFS(genGilbert500DFS_R, 0);
+		genGilbert500DFS_R.EscribeArchivo(p.getProperty("PathfileGenGilbert500DFS_R"), genGilbert500DFS_R.toString());
+		
+		
+		GrafoDirigido genGilbert500DFS_I = (GrafoDirigido) genGilbert500;
+		genGilbert500DFS_I.BFS(genGilbert500DFS_I, 0);
+		genGilbert500DFS_I.EscribeArchivo(p.getProperty("PathfileGenGilbert500DFS_I"), genGilbert500DFS_I.toString());
+		
+		
 		
 		
 		//genGeografico
@@ -49,13 +149,67 @@ public class MainGrafo {
 		genGeografico30.EscribeArchivo(p.getProperty("PathfilegenGeografico30"), genGeografico30.toString());
 		
 		
+		GrafoDEtiquetado genGeografico30BFS= (GrafoDEtiquetado) genGeografico30;
+		genGeografico30BFS.BFS(genGeografico30BFS,0);
+		genGeografico30BFS.EscribeArchivo(p.getProperty("PathfilegenGeografico30BFS"), genGeografico30BFS.toString());
+		
+		
+		GrafoDEtiquetado genGeografico30DFS_R= (GrafoDEtiquetado) genGeografico30;
+		genGeografico30DFS_R.BFS(genGeografico30DFS_R,0);
+		genGeografico30DFS_R.EscribeArchivo(p.getProperty("PathfilegenGeografico30DFS_R"), genGeografico30DFS_R.toString());
+		
+		
+		GrafoDEtiquetado genGeografico30DFS_I= (GrafoDEtiquetado) genGeografico30;
+		genGeografico30DFS_I.BFS(genGeografico30DFS_I,0);
+		genGeografico30DFS_I.EscribeArchivo(p.getProperty("PathfilegenGeografico30DFS_I"), genGeografico30DFS_I.toString());
+		
+		
+		
+		
+		
 		GrafoDEtiquetado genGeografico100 = genGeografico(100,.3,true,true);
 		genGeografico100.EscribeArchivo(p.getProperty("PathfilegenGeografico100"), genGeografico100.toString());
+		
+		
+		GrafoDEtiquetado genGeografico100BFS= (GrafoDEtiquetado) genGeografico100;
+		genGeografico100BFS.BFS(genGeografico100BFS,0);
+		genGeografico100BFS.EscribeArchivo(p.getProperty("PathfilegenGeografico100BFS"), genGeografico100BFS.toString());
+		
+		
+		GrafoDEtiquetado genGeografico100DFS_R= (GrafoDEtiquetado) genGeografico100;
+		genGeografico100DFS_R.BFS(genGeografico100DFS_R,0);
+		genGeografico100DFS_R.EscribeArchivo(p.getProperty("PathfilegenGeografico100DFS_R"), genGeografico100DFS_R.toString());
+		
+		
+		GrafoDEtiquetado genGeografico100DFS_I= (GrafoDEtiquetado) genGeografico100;
+		genGeografico100DFS_I.BFS(genGeografico100DFS_I,0);
+		genGeografico100DFS_I.EscribeArchivo(p.getProperty("PathfilegenGeografico100DFS_I"), genGeografico100DFS_I.toString());
+		
+		
+				
+		
+		
+		
+		
 		
 		GrafoDEtiquetado genGeografico500 = genGeografico(500,0.3,true,true);
 		
 		genGeografico500.EscribeArchivo(p.getProperty("PathfilegenGeografico500"), genGeografico500.toString());
 		
+		
+		GrafoDEtiquetado genGeografico500BFS= (GrafoDEtiquetado) genGeografico500;
+		genGeografico500BFS.BFS(genGeografico500BFS,0);
+		genGeografico500BFS.EscribeArchivo(p.getProperty("PathfilegenGeografico500BFS"), genGeografico500BFS.toString());
+		
+		
+		GrafoDEtiquetado genGeografico500DFS_R= (GrafoDEtiquetado) genGeografico500;
+		genGeografico500DFS_R.BFS(genGeografico500DFS_R,0);
+		genGeografico500DFS_R.EscribeArchivo(p.getProperty("PathfilegenGeografico500DFS_R"), genGeografico500DFS_R.toString());
+		
+		
+		GrafoDEtiquetado genGeografico500DFS_I= (GrafoDEtiquetado) genGeografico500;
+		genGeografico500DFS_I.BFS(genGeografico500DFS_I,0);
+		genGeografico500DFS_I.EscribeArchivo(p.getProperty("PathfilegenGeografico500DFS_I"), genGeografico500DFS_I.toString());
 		
 			
 		//genBarabasAlbert
@@ -64,13 +218,60 @@ public class MainGrafo {
 	    genBarabasAlbert30.EscribeArchivo(p.getProperty("PathfilegenBarabasAlbert30"), genBarabasAlbert30.toString());
 		System.out.println(genBarabasAlbert30.toString());
 		
+		GrafoNoDirigido genBarabasAlbert30BFS = (GrafoNoDirigido)genBarabasAlbert30;
+		genBarabasAlbert30BFS.BFS(genBarabasAlbert30,0);
+		genBarabasAlbert30BFS.EscribeArchivo(p.getProperty("PathfilegenBarabasAlbert30BFS"), genBarabasAlbert30BFS.toString());
+		
+		
+		GrafoNoDirigido genBarabasAlbert30DFS_R = (GrafoNoDirigido)genBarabasAlbert30;
+		genBarabasAlbert30DFS_R.BFS(genBarabasAlbert30,0);
+		genBarabasAlbert30DFS_R.EscribeArchivo(p.getProperty("PathfilegenBarabasAlbert30DFS_R"), genBarabasAlbert30DFS_R.toString());
+		
+		GrafoNoDirigido genBarabasAlbert30DFS_I = (GrafoNoDirigido)genBarabasAlbert30;
+		genBarabasAlbert30DFS_I.BFS(genBarabasAlbert30,0);
+		genBarabasAlbert30DFS_I.EscribeArchivo(p.getProperty("PathfilegenBarabasAlbert30DFS_I"), genBarabasAlbert30DFS_I.toString());
+		
+		
+		
+		
 		GrafoNoDirigido genBarabasAlbert100 = genBarabasAlbert(100,7,true,true);
 		genBarabasAlbert100.EscribeArchivo(p.getProperty("PathfilegenBarabasAlbert100"), genBarabasAlbert100.toString());
 		System.out.println(genBarabasAlbert100.toString());
 		
+		
+		GrafoNoDirigido genBarabasAlbert100BFS = (GrafoNoDirigido)genBarabasAlbert100;
+		genBarabasAlbert100BFS.BFS(genBarabasAlbert100,0);
+		genBarabasAlbert100BFS.EscribeArchivo(p.getProperty("PathfilegenBarabasAlbert100BFS"), genBarabasAlbert100BFS.toString());
+		
+		
+		GrafoNoDirigido genBarabasAlbert100DFS_R = (GrafoNoDirigido)genBarabasAlbert100;
+		genBarabasAlbert100DFS_R.BFS(genBarabasAlbert100,0);
+		genBarabasAlbert100DFS_R.EscribeArchivo(p.getProperty("PathfilegenBarabasAlbert100DFS_R"), genBarabasAlbert100DFS_R.toString());
+		
+		GrafoNoDirigido genBarabasAlbert100DFS_I = (GrafoNoDirigido)genBarabasAlbert100;
+		genBarabasAlbert100DFS_I.BFS(genBarabasAlbert100,0);
+		genBarabasAlbert100DFS_I.EscribeArchivo(p.getProperty("PathfilegenBarabasAlbert100DFS_I"), genBarabasAlbert100DFS_I.toString());
+		
+		
+		
 		GrafoNoDirigido genBarabasAlbert500 = genBarabasAlbert(500,7,true,true);
-		genBarabasAlbert100.EscribeArchivo(p.getProperty("PathfilegenBarabasAlbert500"), genBarabasAlbert500.toString());
+		genBarabasAlbert500.EscribeArchivo(p.getProperty("PathfilegenBarabasAlbert500"), genBarabasAlbert500.toString());
 		System.out.println(genBarabasAlbert500.toString());
+		
+		GrafoNoDirigido genBarabasAlbert500BFS = (GrafoNoDirigido)genBarabasAlbert500;
+		genBarabasAlbert500BFS.BFS(genBarabasAlbert500,0);
+		genBarabasAlbert500BFS.EscribeArchivo(p.getProperty("PathfilegenBarabasAlbert500BFS"), genBarabasAlbert500BFS.toString());
+		
+		
+		GrafoNoDirigido genBarabasAlbert500DFS_R = (GrafoNoDirigido)genBarabasAlbert500;
+		genBarabasAlbert500DFS_R.BFS(genBarabasAlbert500,0);
+		genBarabasAlbert500DFS_R.EscribeArchivo(p.getProperty("PathfilegenBarabasAlbert500DFS_R"), genBarabasAlbert500DFS_R.toString());
+		
+		GrafoNoDirigido genBarabasAlbert500DFS_I = (GrafoNoDirigido)genBarabasAlbert500;
+		genBarabasAlbert500DFS_I.BFS(genBarabasAlbert500,0);
+		genBarabasAlbert500DFS_I.EscribeArchivo(p.getProperty("PathfilegenBarabasAlbert500DFS_I"), genBarabasAlbert500DFS_I.toString());
+		
+		
 		
 				
 	}

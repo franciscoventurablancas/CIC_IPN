@@ -2,7 +2,9 @@ import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
+import java.util.PriorityQueue;
 import java.util.Random;
+import java.util.Stack;
 
 /*
  * Un Grafo Etiquetado es un grafo G = (V,E) sobre el
@@ -185,5 +187,88 @@ public class GrafoDEtiquetado<E> extends Grafo {
 				  
 				    return salida;
 				  }
-		
+			 
+			 public Grafo BFS(Grafo g,int s) {
+				 GrafoDEtiquetado arbol = (GrafoDEtiquetado) g;  // grafo de salida
+			      
+			   
+			        Boolean[] discovered = new Boolean[numVertices()];  // arreglo aux
+			        PriorityQueue<Integer> L = new PriorityQueue<Integer>();
+			        discovered[s] = true;  // se pone como descubierto el vértice raíz
+			        for (int i = 0; i < numVertices(); i++) {
+			          if (i != s) {   // el resto como no descubiertos
+			            discovered[i] = false;
+			          }
+			        }
+			        L.add(s);  // Se agrega a la cola de prioridad el nodo raíz
+			        while (L.peek() != null) {  // se revisa que no esté vacía la cola
+			          int u = L.poll();  // se extrae un elemento de la cola
+			          HashSet<Vertice> aristas = this.getEdges(u);  // aristas del nodo u
+			          for (Vertice n : aristas) {
+			            if(!discovered[n.getIndex()]) {
+			              // si no está descubierto, conectarlo, marcarlo como descubierto
+			              // y agregarlo a la cola.
+			              conectarVertices(u, n.getIndex());
+			              discovered[n.getIndex()] = true;
+			              L.add(n.getIndex());
+			            }
+			          }
+			        }
+			        return arbol;
+			      }
+			 /* Método para generar el árbol DFS del Grafo de forma recursiva  */
+			  /* Regresa otro grafo. Solo toma como entrada el número de un nodo*/
+			  public Grafo DFS_R(int s) {
+			  Grafo arbol = new GrafoDEtiquetado(numVertices());  // grafo de salida
+			  Boolean[] discovered = new Boolean[numVertices()];  // arreglo aux
+			  for (int i = 0; i < numVertices(); i++) {
+			    discovered[i] = false;  // se marcan todos como no decubiertos
+			  }
+			  // se manda a llamar a la función recursiva de DFS
+			  recursivoDFS(s, discovered, arbol);
+			  return arbol;
+			}
+
+			  private void recursivoDFS(int u, Boolean[] discovered, Grafo arbol) {
+			  discovered[u] = true;  // vértice con el que se llamó se marca
+			  // aristas del vértice u, con el que se llamó el método
+			  HashSet<Vertice> aristas = this.getEdges(u);
+			  for (Vertice n : aristas) {
+			      if (!discovered[n.getIndex()]) {
+			        // si no está descubierto, conectar el vértice
+			        // y mandar a llamar recursivamente el método con este nuevo vértice
+			        conectarVertices(u, n.getIndex());
+			        recursivoDFS(n.getIndex(), discovered, arbol);
+			        }
+			      }
+			    }
+
+			  /* Método para generar el árbol DFS del Grafo de forma iterativa  */
+			/* Regresa otro grafo. Solo toma como entrada el número de un nodo*/
+			  public Grafo DFS_I(int s) {
+			  Grafo arbol = new GrafoDEtiquetado(numVertices());  // grafo de salida
+			  Boolean[] explored = new Boolean[numVertices()];  // arreglo aux
+			  Stack<Integer> S = new Stack<Integer>(); //pila para los vértices
+			  Integer[] parent = new Integer[numVertices()]; //arreglo de padres
+			  for (int i = 0; i < numVertices(); i++) {
+			      explored[i] = false;  //se ponen todos los vértices como no explorados
+			    }
+			  S.push(s);  //se manda a la pila al nodo raíz
+			  while(!S.isEmpty()) {
+			    // mientras la pila no esté vacía
+			    int u = S.pop();  // se extraen elementos de la pila
+			    if(!explored[u]) {
+			      explored[u] = true;  // si aún no estaban explorados se marcan como tal
+			      if(u != s) {
+			        conectarVertices(u, parent[u]); //se conecta con su padre
+			      }
+			      HashSet<Vertice> aristas = this.getEdges(u);  // aristas del nodo u
+			      for (Vertice n : aristas) {
+			        S.push(n.getIndex());  // a la pila los vértices conectados con u
+			        parent[n.getIndex()] = u;  // se les marca como padre a u
+			        }
+			      }
+			    }
+			  return arbol;
+			  }
 }

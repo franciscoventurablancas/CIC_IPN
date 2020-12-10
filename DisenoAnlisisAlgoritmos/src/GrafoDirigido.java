@@ -3,7 +3,9 @@ import java.util.Formatter;
 import java.util.FormatterClosedException;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.PriorityQueue;
 import java.util.Random;
+import java.util.Stack;
 
 /*
  * Grafo Dirigido
@@ -54,6 +56,18 @@ public class GrafoDirigido extends Grafo {
         for (int i = 0; i < numV; i++) {
             elArray[i] = new LEGListaConPI<Adyacente>();
         }
+        
+        
+        this.graph = new HashMap<Vertice, HashSet<Vertice>>();
+	    this.incidencia = new HashMap<Vertice, HashSet<Arista>>();
+	    this.numeroVertices = numVertices();
+	    this.nodes = new Vertice[numVertices()];
+	    for (int i = 0; i < numVertices(); i++) {
+	      Vertice n = new Vertice(i);
+	      this.nodes[i] = n;
+	      this.graph.put(n, new HashSet<Vertice>());
+	      this.incidencia.put(n, new HashSet<Arista>());
+	    }
     }
 
     /**Devuelve el numero de vertices de un grafo.
@@ -199,10 +213,103 @@ public class GrafoDirigido extends Grafo {
         return this.incidencia.get(n);
       }
 
-  
+    public Grafo BFS(Grafo g,int s) {
+        GrafoDirigido arbol = (GrafoDirigido) g;  // grafo de salida
+        Boolean[] discovered = new Boolean[g.numAristas()];  // arreglo aux
+        PriorityQueue<Integer> L = new PriorityQueue<Integer>();
+        discovered[s] = true;  // se pone como descubierto el vértice raíz
+        for (int i = 0; i < g.numAristas(); i++) {
+          if (i != s) {   // el resto como no descubiertos
+            discovered[i] = false;
+          }
+        }
+        L.add(s);  // Se agrega a la cola de prioridad el nodo raíz
+        while (L.peek() != null) {  // se revisa que no esté vacía la cola
+          int u = L.poll();  // se extrae un elemento de la cola
+          HashSet<Vertice> aristas = arbol.getEdges(u);  // aristas del nodo u
+          for (Vertice n : aristas) {
+            if(!discovered[n.getIndex()]) {
+              // si no está descubierto, conectarlo, marcarlo como descubierto
+              // y agregarlo a la cola.
+              conectarVertices(u, n.getIndex());
+              discovered[n.getIndex()] = true;
+              L.add(n.getIndex());
+            }
+          }
+        }
+        return arbol;
+      }
     
-    
-    
+    public void conectarVertices(int i, int j) {
+        /*Se recuperan los vértices de los índices i y j*/
+         Vertice n1 = this.getNode(i);
+         Vertice n2 = this.getNode(j);
+         /*Se recuperan las aristas de cada vértice*/
+         HashSet<Vertice> aristas1 = this.getEdges(i);
+         HashSet<Vertice> aristas2 = this.getEdges(j);
+
+         /*Se agregan los vértices al conjunto del otro*/
+         aristas1.add(n2);
+         aristas2.add(n1);  //en Grafos dirigidos hay que quitar esta línea
+         this.numeroAristas +=1; //Para que sean aristas únicas (en lugar de 2)
+      }
+    /* Método para generar el árbol DFS del Grafo de forma recursiva  */
+    /* Regresa otro grafo. Solo toma como entrada el número de un nodo*/
+    public Grafo DFS_R(Grafo g,int s) {
+    	GrafoDirigido arbol = (GrafoDirigido) g;  // grafo de salida
+    Boolean[] discovered = new Boolean[g.numAristas()];  // arreglo aux
+    for (int i = 0; i < g.numAristas(); i++) {
+      discovered[i] = false;  // se marcan todos como no decubiertos
+    }
+    // se manda a llamar a la función recursiva de DFS
+    recursivoDFS(s, discovered, arbol);
+    return arbol;
+  }
+
+    private void recursivoDFS(int u, Boolean[] discovered, Grafo arbol) {
+    discovered[u] = true;  // vértice con el que se llamó se marca
+    // aristas del vértice u, con el que se llamó el método
+    HashSet<Vertice> aristas = this.getEdges(u);
+    for (Vertice n : aristas) {
+        if (!discovered[n.getIndex()]) {
+          // si no está descubierto, conectar el vértice
+          // y mandar a llamar recursivamente el método con este nuevo vértice
+         conectarVertices(u, n.getIndex());
+          recursivoDFS(n.getIndex(), discovered, arbol);
+          }
+        }
+      }
+
+    /* Método para generar el árbol DFS del Grafo de forma iterativa  */
+  /* Regresa otro grafo. Solo toma como entrada el número de un nodo*/
+    public Grafo DFS_I(Grafo g,int s) {
+    	GrafoDirigido arbol = (GrafoDirigido) g;  // grafo de salida
+      
+    Boolean[] explored = new Boolean[g.numAristas()];  // arreglo aux
+    Stack<Integer> S = new Stack<Integer>(); //pila para los vértices
+    Integer[] parent = new Integer[g.numAristas()]; //arreglo de padres
+    for (int i = 0; i < g.numAristas(); i++) {
+        explored[i] = false;  //se ponen todos los vértices como no explorados
+      }
+    S.push(s);  //se manda a la pila al nodo raíz
+    while(!S.isEmpty()) {
+      // mientras la pila no esté vacía
+      int u = S.pop() ;  // se extraen elementos de la pila
+      
+      if(!explored[u]) {
+        explored[u] = true;  // si aún no estaban explorados se marcan como tal
+        if(u != s) {
+          conectarVertices(u, parent[u]); //se conecta con su padre
+        }
+        HashSet<Vertice> aristas = this.getEdges(u);  // aristas del nodo u
+        for (Vertice n : aristas) {
+          S.push(n.getIndex());  // a la pila los vértices conectados con u
+          parent[n.getIndex()] = u;  // se les marca como padre a u
+          }
+        }
+      }
+    return arbol;
+    }
 }
 
 
