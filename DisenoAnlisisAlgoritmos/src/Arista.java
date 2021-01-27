@@ -1,4 +1,6 @@
-
+/*Alumno Francisco Ventura Blancas
+*
+*/
 public class Arista {
   /* Variables de instancia*/
   private Integer n1;

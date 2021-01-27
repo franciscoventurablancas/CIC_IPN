@@ -1,3 +1,6 @@
+/*Alumno Francisco Ventura Blancas
+*
+*/
 import java.util.Formatter;
 import java.util.FormatterClosedException;
 import java.io.*;

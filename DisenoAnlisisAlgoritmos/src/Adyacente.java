@@ -1,4 +1,6 @@
-
+/*Alumno Francisco Ventura Blancas
+*
+*/
 /** Representa un vertice adyacente a otro de un grafo y el peso
  *  de la arista que los une. <br>
  *
