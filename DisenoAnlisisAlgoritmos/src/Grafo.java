@@ -107,7 +107,45 @@ public abstract class Grafo {
     	archivo.escribirArchivo(nombreArchivo,string);
 	}
 	  
-	
+	 public Grafo Dijkstra(int s) {
+    Grafo arbol = new Grafo(this.getNumNodes()); //grafo de salida
+    double inf = Double.POSITIVE_INFINITY;  // máxima distancia
+    //arreglo donde se guarda el nodo padre de cada nodo
+    Integer[] padres = new Integer[arbol.getNumNodes()];
+    // Las distancias de todos los nodos a infinito y todos los padres a null
+    for (int i = 0; i < arbol.getNumNodes(); i++) {
+      this.getNode(i).setDistance(inf);
+      padres[i] = null;
+    }
+    // la distancia del nodo fuente a 0.0 y a sí mismo como padre
+    this.getNode(s).setDistance(0.0);
+    padres[s] = s;
+    // Cola de prioridad de los nodos. La llave es la distancia
+    PriorityQueue<Vertice> distPQ = new PriorityQueue<>(vertexDistanceComp);
+    for (int i = 0; i < this.getNumNodes(); i++) {
+        distPQ.add(this.getNode(i));
+    }
+    //Se explora el grafo
+    while (distPQ.peek() != null) {  // se revisa que no esté vacía la cola
+      Vertice u = distPQ.poll();  // elemento de la cola de prioridad
+      //aristas del nodo u
+      HashSet<Arista> aristas = this.getWeightedEdges(u.getIndex());
+      for (Arista e : aristas) {
+        // actualizar padre y distancia si es menor a la que tenía
+        if(this.getNode(e.getIntN2()).getDistance() > this.getNode(u.getIndex()).getDistance() + e.getWeight()) {
+          this.getNode(e.getIntN2()).setDistance(this.getNode(u.getIndex()).getDistance() + e.getWeight());
+          padres[e.getIntN2()] = u.getIndex();
+        }
+      }
+    }
+    //se conecta el árbol de salida con la lista de padres y se asigna la
+    //distancia al nodo fuente a cada nodo
+    for (int i = 0; i < arbol.getNumNodes(); i++) {
+      arbol.setAristaPeso(i, padres[i], 1);
+      arbol.getNode(i).setDistance(this.getNode(i).getDistance());
+    }
+    return arbol;
+  }
 	
 		
 
