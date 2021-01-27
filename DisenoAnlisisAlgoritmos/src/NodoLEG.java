@@ -1,3 +1,6 @@
+/*Alumno Francisco Ventura Blancas
+*
+*/
 class NodoLEG<E> {
 
     E dato;

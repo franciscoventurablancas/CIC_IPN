@@ -1,3 +1,6 @@
+/*Alumno Francisco Ventura Blancas
+*
+*/
 public class LEGListaConPI<E> implements ListaConPI<E> {
 
     protected NodoLEG<E> pri, ant, ult;

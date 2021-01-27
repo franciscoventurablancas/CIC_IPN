@@ -1,4 +1,6 @@
-
+/*Alumno Francisco Ventura Blancas
+*
+*/
 public class Persona {
 	
 	private String matricula;

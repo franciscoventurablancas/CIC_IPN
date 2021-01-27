@@ -1,4 +1,6 @@
-
+/*Alumno Francisco Ventura Blancas
+*
+*/
 public class Vertice {
   /* Variables de instancia*/
   private String name;
