@@ -40,7 +40,7 @@ def pca(dataMat, topNfeat=999999):
 
 # ---------------------------- main ---------------------------- #
 
-dataMat = loadDataSet('./data/testSet.txt')
+dataMat = loadDataSet('testSet.txt')
 lowDDataMat, reconMat = pca(dataMat, 1)
 #showData(dataMat, lowDDataMat)
 showData(dataMat, reconMat)
